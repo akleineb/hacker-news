@@ -7,7 +7,7 @@ import { Story } from './Story';
 
 export const Stories = () => {
     const SCROLL_INCREMENT = 15;
-    const MAX_STORIES = 100;
+    const MAX_STORIES = 500;
 
     let { page } = useScrollPaginator()
     const [stories, setStories] = useState([]);
