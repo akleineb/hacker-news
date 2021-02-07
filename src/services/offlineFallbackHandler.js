@@ -9,7 +9,9 @@ export const getRequestData = async (requestUrl, defaultValue) => {
 
     try {
         const { data } = await axios.get(requestUrl);
-        return saveCache(requestUrl, data);
+        saveCache(requestUrl);
+
+        return data;
     } catch (err) {
         return defaultValue;
     }

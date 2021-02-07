@@ -5,8 +5,6 @@ export const saveCache = (name, value) => {
         iat: Date.now().toString(),
         value
     }));
-
-    return value;
 }
 
 export const getCache = (name, defaultValue) => {
