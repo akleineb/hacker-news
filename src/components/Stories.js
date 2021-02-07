@@ -11,8 +11,18 @@ export const Stories = () => {
 
     let { page } = useScrollPaginator()
     const [stories, setStories] = useState([]);
+    const [currentStories, setCurrentStories] = useState([]);
     const [currentStoriesCount, setCurrentStoriesCount] = useState(SCROLL_INCREMENT);
     const [isLoading, setIsLoading] = useState(false);
+
+    useEffect(() => {
+        async function loadStories() {
+            setStories(await getStories());
+            setIsLoading(false)
+        }
+
+        loadStories();
+    }, []);
 
     useEffect(() => {
         if (currentStoriesCount === MAX_STORIES) {
@@ -25,17 +35,12 @@ export const Stories = () => {
     }, [currentStoriesCount, isLoading, page]);
 
     useDebouncedEffect(() => {
-        async function loadStories() {
-            setStories(await getStories(currentStoriesCount));
-            setIsLoading(false)
-        }
-
-        loadStories();
-    }, 300, [currentStoriesCount])
+        setCurrentStories(stories.slice(0, currentStoriesCount));
+    }, 50, [currentStoriesCount, stories])
 
     return (
         <div>
-            {stories.map((storyId) => (
+            {currentStories.map((storyId) => (
                 <Story key={storyId} storyId={storyId} />
             ))}
             { isLoading && <Information title='More stories are currently being loaded.'>Loading..</Information>}
