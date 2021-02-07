@@ -14,6 +14,7 @@ export const Stories = () => {
     const [currentStories, setCurrentStories] = useState([]);
     const [currentStoriesCount, setCurrentStoriesCount] = useState(SCROLL_INCREMENT);
     const [isLoading, setIsLoading] = useState(false);
+    const [isEndOfList, setIsEndOfList] = useState(false);
 
     useEffect(() => {
         async function loadStories() {
@@ -26,6 +27,7 @@ export const Stories = () => {
 
     useEffect(() => {
         if (currentStoriesCount === MAX_STORIES) {
+            setIsEndOfList(true);
             return;
         }
 
@@ -43,7 +45,7 @@ export const Stories = () => {
             {currentStories.map((storyId) => (
                 <Story key={storyId} storyId={storyId} />
             ))}
-            { isLoading && <Information title='More stories are currently being loaded.'>Loading..</Information>}
+            { isLoading && !isEndOfList && <Information title='More stories are currently being loaded.'>Loading..</Information>}
         </div>
     );
 }
