@@ -7,7 +7,6 @@ describe('HackerNewsApi', () => {
 
     test('story call returns default data if offline', async () => {
         // arrange
-        jest.mock('axios');
         axios.get.mockResolvedValue({ data: { id: 1234 } });
         jest.spyOn(navigator, 'onLine', 'get').mockReturnValue(false);
 
@@ -20,7 +19,6 @@ describe('HackerNewsApi', () => {
 
     test('story call returns response data if online', async () => {
         // arrange
-        jest.mock('axios');
         const response = { id: 1234 };
         axios.get.mockResolvedValue({ data: response });
         jest.spyOn(navigator, 'onLine', 'get').mockReturnValue(true);
@@ -34,7 +32,6 @@ describe('HackerNewsApi', () => {
 
     test('getStories returns multiple stories if online', async () => {
         // arrange
-        jest.mock('axios');
         const response = [{ id: 1234 }, { id: 1234 }, { id: 1234 }];
         axios.get.mockResolvedValue({ data: response });
         jest.spyOn(navigator, 'onLine', 'get').mockReturnValue(true);
