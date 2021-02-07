@@ -9,7 +9,7 @@ describe('HackerNewsApi', () => {
         // arrange
         jest.mock('axios');
         axios.get.mockResolvedValue({ data: { id: 1234 } });
-        jest.spyOn(navigator, 'onLine', 'get').mockReturnValueOnce(false);
+        jest.spyOn(navigator, 'onLine', 'get').mockReturnValue(false);
 
         // act
         const storyData = await getStory(1234);
@@ -23,7 +23,7 @@ describe('HackerNewsApi', () => {
         jest.mock('axios');
         const response = { id: 1234 };
         axios.get.mockResolvedValue({ data: response });
-        jest.spyOn(navigator, 'onLine', 'get').mockReturnValueOnce(true);
+        jest.spyOn(navigator, 'onLine', 'get').mockReturnValue(true);
 
         // act
         const storyData = await getStory(1234);
@@ -32,12 +32,12 @@ describe('HackerNewsApi', () => {
         expect(storyData).toStrictEqual(response);
     });
 
-    test('getStories returns multiple stories', async () => {
+    test('getStories returns multiple stories if online', async () => {
         // arrange
         jest.mock('axios');
         const response = [{ id: 1234 }, { id: 1234 }, { id: 1234 }];
         axios.get.mockResolvedValue({ data: response });
-        jest.spyOn(navigator, 'onLine', 'get').mockReturnValueOnce(true);
+        jest.spyOn(navigator, 'onLine', 'get').mockReturnValue(true);
 
         // act
         const stories = await getStories();
