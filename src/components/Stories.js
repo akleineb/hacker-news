@@ -9,7 +9,7 @@ export const Stories = () => {
     const SCROLL_INCREMENT = 15;
     const MAX_STORIES = 500;
 
-    let { page } = useScrollPaginator()
+    const { page } = useScrollPaginator()
     const [stories, setStories] = useState([]);
     const [currentStories, setCurrentStories] = useState([]);
     const [currentStoriesCount, setCurrentStoriesCount] = useState(SCROLL_INCREMENT);
