@@ -1,20 +1,26 @@
 import '@testing-library/jest-dom';
 
-let localStorageMock = (function () {
-    let store = {};
-    return {
-        getItem: function (key) {
-            return store[key];
-        },
-        setItem: function (key, value) {
-            store[key] = value.toString();
-        },
-        clear: function () {
-            store = {};
-        },
-        removeItem: function (key) {
-            delete store[key];
-        }
+class LocalStorage {
+    store = {};
+    setItem = (key, val) => (this.store[key] = val);
+    getItem = (key) => this.store[key];
+    removeItem = (key) => {
+        delete this.store[key];
     };
-})();
-Object.defineProperty(window, 'localStorage', { value: localStorageMock });
+    clear = () => (this.store = {});
+}
+
+let fakeLocalStorage = new LocalStorage();
+fakeLocalStorage = new Proxy(fakeLocalStorage, {
+    ownKeys: (target) => {
+        return Object.keys(target.store);
+    },
+    getOwnPropertyDescriptor(k) {
+        return {
+            enumerable: true,
+            configurable: true
+        };
+    },
+});
+
+Object.defineProperty(window, 'localStorage', { value: fakeLocalStorage });
